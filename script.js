@@ -1,45 +1,77 @@
-alert("JavaScript funcionando!");
 // ===============================
 // QRFila - Script Principal
 // ===============================
 
-// Obtém os parâmetros da URL
-const parametros = new URLSearchParams(window.location.search);
+document.addEventListener("DOMContentLoaded", () => {
 
-// Obtém o número informado
-const numero = parametros.get("n");
+    const visor = document.getElementById("numero");
 
-// Elemento que exibirá a senha
-const visor = document.getElementById("numero");
+    // Se não encontrar o visor, encerra
+    if (!visor) return;
 
-if (numero !== null && !isNaN(numero)) {
 
-    // Converte para inteiro
-    const valor = parseInt(numero);
+    // Pega o número da URL
+    const parametros = new URLSearchParams(window.location.search);
+    const numero = parametros.get("n");
 
-    // Limite permitido
+
+    // Verifica se existe número
+    if (numero === null) {
+        visor.textContent = "Escaneie um QR Code";
+        return;
+    }
+
+
+    // Converte para número
+    const valor = Number(numero);
+
+
+    // Validação
     if (valor >= 1 && valor <= 40) {
 
-        // Formata com 3 dígitos
-        const formatado = valor.toString().padStart(3, "0");
+        const formatado = String(valor).padStart(3, "0");
 
         visor.textContent = "Nº " + formatado;
 
-        document.title = "QRFila • Nº " + formatado;
+        document.title = "QRFila - Nº " + formatado;
 
-        // Vibração (Android)
-        if ("vibrate" in navigator) {
+
+        // Vibração no celular
+        if (navigator.vibrate) {
             navigator.vibrate(120);
         }
 
+
     } else {
 
-        visor.innerHTML = "QR Inválido";
+        visor.textContent = "QR Inválido";
 
     }
 
-} else {
+});
 
-    visor.innerHTML = "Escaneie um QR Code";
+
+// ===============================
+// Gerador dos links dos QR Codes
+// ===============================
+
+function gerarNumerosFila() {
+
+    const lista = [];
+
+    const endereco = window.location.origin + window.location.pathname;
+
+
+    for (let i = 1; i <= 40; i++) {
+
+        lista.push({
+            numero: String(i).padStart(3, "0"),
+            link: endereco + "?n=" + i
+        });
+
+    }
+
+
+    return lista;
 
 }
