@@ -1,0 +1,22 @@
+{
+  "name": "QRFila",
+  "short_name": "QRFila",
+  "description": "Sistema de controle de filas por QR Code",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0B6E4F",
+  "theme_color": "#0B6E4F",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

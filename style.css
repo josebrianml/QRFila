@@ -1,0 +1,107 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#0B6E4F,#128C7E);
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    color:white;
+}
+
+.container{
+    width:90%;
+    max-width:450px;
+    text-align:center;
+    background:#ffffff;
+    color:#222;
+    padding:35px;
+    border-radius:20px;
+    box-shadow:0 10px 35px rgba(0,0,0,.25);
+    animation: aparecer .35s ease;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+}
+
+.logo{
+    width:120px;
+    height:auto;
+    margin-bottom:20px;
+}
+
+h1{
+    color:#0B6E4F;
+    margin-bottom:30px;
+    font-size:36px;
+}
+
+#numero{
+    font-size:92px;
+    line-height:1;
+    letter-spacing:2px;
+    font-weight:bold;
+    color:#111;
+    margin:40px 0;
+    text-align:center;
+    user-select:none;
+}
+
+.botao{
+    background:#0B6E4F;
+    color:white;
+    border:none;
+    padding:15px 35px;
+    font-size:20px;
+    border-radius:12px;
+    cursor:pointer;
+    transition:.25s ease;
+    font-weight:bold;
+    box-shadow:0 6px 15px rgba(11,110,79,.25);
+}
+
+.botao:hover{
+    background:#09553d;
+    transform:scale(1.03);
+}
+
+@media(max-width:600px){
+
+.logo{
+    width:90px;
+}
+
+h1{
+    font-size:28px;
+}
+
+#numero{
+    font-size:72px;
+}
+
+.botao{
+    width:100%;
+}
+
+}
+
+@keyframes aparecer{
+
+from{
+opacity:0;
+transform:translateY(20px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
