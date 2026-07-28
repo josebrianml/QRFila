@@ -1,3 +1,4 @@
+alert("JavaScript funcionando!");
 // ===============================
 // QRFila - Script Principal
 // ===============================
