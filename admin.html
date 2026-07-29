@@ -30,14 +30,12 @@ body{
 }
 
 
-
 h1{
 
     text-align:center;
     color:#0B6E4F;
 
 }
-
 
 
 .botoes{
@@ -50,26 +48,18 @@ h1{
 }
 
 
-
 button{
 
     background:#0B6E4F;
     color:white;
-
     border:none;
-
     padding:15px 25px;
-
     border-radius:10px;
-
     font-size:16px;
-
     font-weight:bold;
-
     cursor:pointer;
 
 }
-
 
 
 button:hover{
@@ -77,7 +67,6 @@ button:hover{
     background:#09553d;
 
 }
-
 
 
 #folhas{
@@ -89,25 +78,24 @@ button:hover{
 }
 
 
-
-/* Prévia A4 */
+/* Prévia das páginas */
 
 .pagina{
 
-    width:297mm;
-    height:210mm;
+    width:210mm;
+    height:297mm;
 
     background:white;
 
     display:grid;
 
-    grid-template-columns:repeat(3,7cm);
+    grid-template-columns:repeat(2,7cm);
 
-    grid-template-rows:repeat(4,7cm);
+    grid-template-rows:repeat(2,7cm);
 
-    gap:1cm;
+    gap:4cm;
 
-    padding:1cm;
+    padding:3cm;
 
     margin-bottom:80px;
 
@@ -137,14 +125,12 @@ button:hover{
 }
 
 
-
 .qr canvas{
 
     width:5cm !important;
     height:5cm !important;
 
 }
-
 
 
 .numero{
@@ -190,8 +176,8 @@ h1,.botoes{
 
 }
 
-</style>
 
+</style>
 
 </head>
 
@@ -207,7 +193,6 @@ QRFila - Gerador de QR Codes
 
 <div class="botoes">
 
-
 <button onclick="gerarQR()">
 Gerar QR Codes
 </button>
@@ -217,7 +202,6 @@ Gerar QR Codes
 Baixar PDF
 </button>
 
-
 </div>
 
 
@@ -226,10 +210,12 @@ Baixar PDF
 
 
 
+
 <script>
 
 
 let gerado=false;
+
 
 
 
@@ -248,8 +234,7 @@ let pagina;
 for(let i=1;i<=40;i++){
 
 
-
-    if((i-1)%12===0){
+    if((i-1)%4===0){
 
 
         pagina=document.createElement("div");
@@ -276,7 +261,6 @@ for(let i=1;i<=40;i++){
     const numero=document.createElement("div");
 
     numero.className="numero";
-
 
 
     numero.textContent="Nº "+String(i).padStart(3,"0");
@@ -316,7 +300,6 @@ for(let i=1;i<=40;i++){
     caixa.appendChild(numero);
 
 
-
     pagina.appendChild(caixa);
 
 
@@ -328,7 +311,6 @@ gerado=true;
 
 
 }
-
 
 
 
@@ -353,7 +335,7 @@ const {jsPDF}=window.jspdf;
 
 const pdf=new jsPDF({
 
-    orientation:"landscape",
+    orientation:"portrait",
 
     unit:"mm",
 
@@ -371,7 +353,7 @@ for(let i=0;i<caixas.length;i++){
 
 
 
-    if(i>0 && i%6===0){
+    if(i>0 && i%4===0){
 
         pdf.addPage();
 
@@ -391,7 +373,7 @@ for(let i=0;i<caixas.length;i++){
 
 
 
-    const posicao=i%6;
+    const posicao=i%4;
 
 
 
@@ -401,9 +383,9 @@ for(let i=0;i<caixas.length;i++){
 
 
 
-    const x=35+(coluna*120);
+    const x=25+(coluna*90);
 
-    const y=20+(linha*85);
+    const y=30+(linha*100);
 
 
 
@@ -438,7 +420,6 @@ for(let i=0;i<caixas.length;i++){
         y+65
 
     );
-
 
 
 }
