@@ -8,40 +8,70 @@
 
 <title>QRFila - Gerador de QR Codes</title>
 
+
 <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+
 <style>
+
 
 *{
     box-sizing:border-box;
     font-family:Arial, Helvetica, sans-serif;
 }
 
+
 body{
-    background:#f2f2f2;
+
     margin:0;
     padding:20px;
+
+    background:#eeeeee;
+
 }
 
+
+
 h1{
+
     text-align:center;
+
     color:#0B6E4F;
+
 }
+
+
+
+.botoes{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:15px;
+
+    margin:25px;
+
+}
+
+
 
 button{
 
-    display:block;
-    margin:20px auto;
-
-    padding:15px 30px;
-
     background:#0B6E4F;
+
     color:white;
 
     border:none;
+
+    padding:15px 25px;
+
     border-radius:10px;
 
-    font-size:18px;
+    font-size:16px;
+
     font-weight:bold;
 
     cursor:pointer;
@@ -49,92 +79,163 @@ button{
 }
 
 
+
+button:hover{
+
+    background:#09553d;
+
+}
+
+
+
+/* Área das páginas */
+
 #folhas{
 
     display:flex;
+
     flex-direction:column;
+
     align-items:center;
 
 }
 
 
+
+/* Página A4 horizontal */
+
 .pagina{
 
+
     width:297mm;
+
     height:210mm;
+
 
     background:white;
 
+
     display:grid;
 
-    grid-template-columns:repeat(3, 7cm);
-    grid-template-rows:repeat(4, 7cm);
+
+    grid-template-columns:repeat(3,7cm);
+
+    grid-template-rows:repeat(4,7cm);
+
 
     gap:1cm;
 
+
     padding:1cm;
 
-    margin-bottom:20px;
 
-    page-break-after:always;
+    margin-bottom:80px;
+
+
+    box-shadow:0 5px 20px rgba(0,0,0,0.15);
+
 
 }
 
 
+
+/* Cartão do QR */
+
 .qr{
 
+
     width:7cm;
+
     height:7cm;
+
 
     display:flex;
 
     flex-direction:column;
 
     justify-content:center;
+
     align-items:center;
 
-    border:1px solid #ddd;
+
+    border:1px solid #cccccc;
+
 
 }
 
 
+
+/* QR central 5cm */
+
 .qr canvas{
 
     width:5cm !important;
+
     height:5cm !important;
 
 }
 
 
+
 .numero{
+
 
     margin-top:8px;
 
+
     font-size:20px;
+
 
     font-weight:bold;
 
+
 }
 
+
+
+
+/* Impressão */
 
 @media print{
 
-    body{
-        background:white;
-        padding:0;
-    }
 
-    button,h1{
-        display:none;
-    }
+body{
 
-    .pagina{
-        margin:0;
-    }
+    background:white;
+
+    padding:0;
 
 }
 
+
+
+h1,.botoes{
+
+    display:none;
+
+}
+
+
+
+.pagina{
+
+
+    margin:0;
+
+    box-shadow:none;
+
+    page-break-after:always;
+
+}
+
+
+
+}
+
+
+
 </style>
+
 
 </head>
 
@@ -142,25 +243,52 @@ button{
 <body>
 
 
-<h1>QRFila - Gerador de QR Codes</h1>
+<h1>
+QRFila - Gerador de QR Codes
+</h1>
+
+
+
+<div class="botoes">
 
 
 <button onclick="gerarQR()">
-Gerar 40 QR Codes
+
+Gerar QR Codes
+
 </button>
+
+
+
+<button onclick="baixarPDF()">
+
+Baixar PDF
+
+</button>
+
+
+</div>
+
+
 
 
 <div id="folhas"></div>
 
 
 
+
 <script>
+
+
+let gerado=false;
+
 
 
 function gerarQR(){
 
 
-const folhas = document.getElementById("folhas");
+const folhas=document.getElementById("folhas");
+
 
 folhas.innerHTML="";
 
@@ -168,16 +296,21 @@ folhas.innerHTML="";
 let pagina;
 
 
+
 for(let i=1;i<=40;i++){
 
 
+
     if((i-1)%12===0){
+
 
         pagina=document.createElement("div");
 
         pagina.className="pagina";
 
+
         folhas.appendChild(pagina);
+
 
     }
 
@@ -188,7 +321,9 @@ for(let i=1;i<=40;i++){
     caixa.className="qr";
 
 
+
     const canvas=document.createElement("canvas");
+
 
 
     const numero=document.createElement("div");
@@ -196,28 +331,41 @@ for(let i=1;i<=40;i++){
     numero.className="numero";
 
 
-    let valor=String(i).padStart(3,"0");
+
+    let texto=String(i).padStart(3,"0");
 
 
-    numero.textContent="Nº "+valor;
+    numero.textContent="Nº "+texto;
+
 
 
 
     const link=
-    window.location.origin+
-    window.location.pathname.replace("admin.html","")+
+
+    window.location.origin +
+
+    window.location.pathname.replace("admin.html","") +
+
     "?n="+i;
 
 
 
     QRCode.toCanvas(
+
         canvas,
+
         link,
+
         {
+
             width:500,
+
             margin:0
+
         }
+
     );
+
 
 
 
@@ -226,10 +374,136 @@ for(let i=1;i<=40;i++){
     caixa.appendChild(numero);
 
 
+
     pagina.appendChild(caixa);
 
 
+
 }
+
+
+
+gerado=true;
+
+
+}
+
+
+
+
+
+async function baixarPDF(){
+
+
+
+if(!gerado){
+
+alert("Primeiro gere os QR Codes.");
+
+return;
+
+}
+
+
+
+const {jsPDF}=window.jspdf;
+
+
+
+const pdf=new jsPDF({
+
+
+orientation:"landscape",
+
+unit:"mm",
+
+format:"a4"
+
+
+});
+
+
+
+const caixas=document.querySelectorAll(".qr");
+
+
+
+for(let i=0;i<caixas.length;i++){
+
+
+
+    if(i>0 && i%12===0){
+
+        pdf.addPage();
+
+    }
+
+
+
+    const canvas=
+
+    caixas[i].querySelector("canvas");
+
+
+
+    const imagem=
+
+    canvas.toDataURL("image/png");
+
+
+
+    let coluna=i%3;
+
+    let linha=Math.floor((i%12)/3);
+
+
+
+    let x=10+(coluna*95);
+
+    let y=10+(linha*48);
+
+
+
+    pdf.addImage(
+
+        imagem,
+
+        "PNG",
+
+        x+10,
+
+        y,
+
+        50,
+
+        50
+
+    );
+
+
+
+    pdf.setFontSize(16);
+
+
+
+    pdf.text(
+
+        "Nº "+String(i+1).padStart(3,"0"),
+
+        x+25,
+
+        y+60
+
+    );
+
+
+
+}
+
+
+
+pdf.save("QRFila_QR_Codes.pdf");
+
 
 
 }
