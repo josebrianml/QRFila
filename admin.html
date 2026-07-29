@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>QRFila - Gerador de QR Codes</title>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#f2f2f2;
+    margin:0;
+    padding:20px;
+}
+
+h1{
+    text-align:center;
+    color:#0B6E4F;
+}
+
+button{
+
+    display:block;
+    margin:20px auto;
+
+    padding:15px 30px;
+
+    background:#0B6E4F;
+    color:white;
+
+    border:none;
+    border-radius:10px;
+
+    font-size:18px;
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
+
+
+#folhas{
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+}
+
+
+.pagina{
+
+    width:297mm;
+    height:210mm;
+
+    background:white;
+
+    display:grid;
+
+    grid-template-columns:repeat(3, 7cm);
+    grid-template-rows:repeat(4, 7cm);
+
+    gap:1cm;
+
+    padding:1cm;
+
+    margin-bottom:20px;
+
+    page-break-after:always;
+
+}
+
+
+.qr{
+
+    width:7cm;
+    height:7cm;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+    align-items:center;
+
+    border:1px solid #ddd;
+
+}
+
+
+.qr canvas{
+
+    width:5cm !important;
+    height:5cm !important;
+
+}
+
+
+.numero{
+
+    margin-top:8px;
+
+    font-size:20px;
+
+    font-weight:bold;
+
+}
+
+
+@media print{
+
+    body{
+        background:white;
+        padding:0;
+    }
+
+    button,h1{
+        display:none;
+    }
+
+    .pagina{
+        margin:0;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<h1>QRFila - Gerador de QR Codes</h1>
+
+
+<button onclick="gerarQR()">
+Gerar 40 QR Codes
+</button>
+
+
+<div id="folhas"></div>
+
+
+
+<script>
+
+
+function gerarQR(){
+
+
+const folhas = document.getElementById("folhas");
+
+folhas.innerHTML="";
+
+
+let pagina;
+
+
+for(let i=1;i<=40;i++){
+
+
+    if((i-1)%12===0){
+
+        pagina=document.createElement("div");
+
+        pagina.className="pagina";
+
+        folhas.appendChild(pagina);
+
+    }
+
+
+
+    const caixa=document.createElement("div");
+
+    caixa.className="qr";
+
+
+    const canvas=document.createElement("canvas");
+
+
+    const numero=document.createElement("div");
+
+    numero.className="numero";
+
+
+    let valor=String(i).padStart(3,"0");
+
+
+    numero.textContent="Nº "+valor;
+
+
+
+    const link=
+    window.location.origin+
+    window.location.pathname.replace("admin.html","")+
+    "?n="+i;
+
+
+
+    QRCode.toCanvas(
+        canvas,
+        link,
+        {
+            width:500,
+            margin:0
+        }
+    );
+
+
+
+    caixa.appendChild(canvas);
+
+    caixa.appendChild(numero);
+
+
+    pagina.appendChild(caixa);
+
+
+}
+
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
