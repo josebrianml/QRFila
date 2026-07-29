@@ -8,14 +8,12 @@
 
 <title>QRFila - Gerador de QR Codes</title>
 
-
 <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 
 <style>
-
 
 *{
     box-sizing:border-box;
@@ -27,7 +25,6 @@ body{
 
     margin:0;
     padding:20px;
-
     background:#eeeeee;
 
 }
@@ -37,7 +34,6 @@ body{
 h1{
 
     text-align:center;
-
     color:#0B6E4F;
 
 }
@@ -47,11 +43,8 @@ h1{
 .botoes{
 
     display:flex;
-
     justify-content:center;
-
     gap:15px;
-
     margin:25px;
 
 }
@@ -61,7 +54,6 @@ h1{
 button{
 
     background:#0B6E4F;
-
     color:white;
 
     border:none;
@@ -88,66 +80,49 @@ button:hover{
 
 
 
-/* Área das páginas */
-
 #folhas{
 
     display:flex;
-
     flex-direction:column;
-
     align-items:center;
 
 }
 
 
 
-/* Página A4 horizontal */
+/* Prévia A4 */
 
 .pagina{
 
-
     width:297mm;
-
     height:210mm;
-
 
     background:white;
 
-
     display:grid;
-
 
     grid-template-columns:repeat(3,7cm);
 
     grid-template-rows:repeat(4,7cm);
 
-
     gap:1cm;
-
 
     padding:1cm;
 
-
     margin-bottom:80px;
 
-
     box-shadow:0 5px 20px rgba(0,0,0,0.15);
-
 
 }
 
 
 
-/* Cartão do QR */
+/* Cartão */
 
 .qr{
 
-
     width:7cm;
-
     height:7cm;
-
 
     display:flex;
 
@@ -157,20 +132,15 @@ button:hover{
 
     align-items:center;
 
-
-    border:1px solid #cccccc;
-
+    border:1px solid #ccc;
 
 }
 
 
 
-/* QR central 5cm */
-
 .qr canvas{
 
     width:5cm !important;
-
     height:5cm !important;
 
 }
@@ -179,22 +149,15 @@ button:hover{
 
 .numero{
 
-
     margin-top:8px;
-
 
     font-size:20px;
 
-
     font-weight:bold;
-
 
 }
 
 
-
-
-/* Impressão */
 
 @media print{
 
@@ -202,11 +165,9 @@ button:hover{
 body{
 
     background:white;
-
     padding:0;
 
 }
-
 
 
 h1,.botoes{
@@ -216,9 +177,7 @@ h1,.botoes{
 }
 
 
-
 .pagina{
-
 
     margin:0;
 
@@ -229,10 +188,7 @@ h1,.botoes{
 }
 
 
-
 }
-
-
 
 </style>
 
@@ -253,17 +209,12 @@ QRFila - Gerador de QR Codes
 
 
 <button onclick="gerarQR()">
-
 Gerar QR Codes
-
 </button>
 
 
-
 <button onclick="baixarPDF()">
-
 Baixar PDF
-
 </button>
 
 
@@ -271,9 +222,7 @@ Baixar PDF
 
 
 
-
 <div id="folhas"></div>
-
 
 
 
@@ -288,7 +237,6 @@ function gerarQR(){
 
 
 const folhas=document.getElementById("folhas");
-
 
 folhas.innerHTML="";
 
@@ -307,7 +255,6 @@ for(let i=1;i<=40;i++){
         pagina=document.createElement("div");
 
         pagina.className="pagina";
-
 
         folhas.appendChild(pagina);
 
@@ -332,15 +279,11 @@ for(let i=1;i<=40;i++){
 
 
 
-    let texto=String(i).padStart(3,"0");
-
-
-    numero.textContent="Nº "+texto;
+    numero.textContent="Nº "+String(i).padStart(3,"0");
 
 
 
-
-    const link=
+    const link =
 
     window.location.origin +
 
@@ -368,7 +311,6 @@ for(let i=1;i<=40;i++){
 
 
 
-
     caixa.appendChild(canvas);
 
     caixa.appendChild(numero);
@@ -376,7 +318,6 @@ for(let i=1;i<=40;i++){
 
 
     pagina.appendChild(caixa);
-
 
 
 }
@@ -392,8 +333,8 @@ gerado=true;
 
 
 
-async function baixarPDF(){
 
+async function baixarPDF(){
 
 
 if(!gerado){
@@ -412,13 +353,11 @@ const {jsPDF}=window.jspdf;
 
 const pdf=new jsPDF({
 
+    orientation:"landscape",
 
-orientation:"landscape",
+    unit:"mm",
 
-unit:"mm",
-
-format:"a4"
-
+    format:"a4"
 
 });
 
@@ -432,7 +371,7 @@ for(let i=0;i<caixas.length;i++){
 
 
 
-    if(i>0 && i%12===0){
+    if(i>0 && i%6===0){
 
         pdf.addPage();
 
@@ -452,15 +391,19 @@ for(let i=0;i<caixas.length;i++){
 
 
 
-    let coluna=i%3;
-
-    let linha=Math.floor((i%12)/3);
+    const posicao=i%6;
 
 
 
-    let x=10+(coluna*95);
+    const coluna=posicao%2;
 
-    let y=10+(linha*48);
+    const linha=Math.floor(posicao/2);
+
+
+
+    const x=35+(coluna*120);
+
+    const y=20+(linha*85);
 
 
 
@@ -470,7 +413,7 @@ for(let i=0;i<caixas.length;i++){
 
         "PNG",
 
-        x+10,
+        x,
 
         y,
 
@@ -482,7 +425,7 @@ for(let i=0;i<caixas.length;i++){
 
 
 
-    pdf.setFontSize(16);
+    pdf.setFontSize(18);
 
 
 
@@ -490,9 +433,9 @@ for(let i=0;i<caixas.length;i++){
 
         "Nº "+String(i+1).padStart(3,"0"),
 
-        x+25,
+        x+12,
 
-        y+60
+        y+65
 
     );
 
@@ -505,8 +448,8 @@ for(let i=0;i<caixas.length;i++){
 pdf.save("QRFila_QR_Codes.pdf");
 
 
-
 }
+
 
 
 </script>
